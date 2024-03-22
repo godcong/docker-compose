@@ -13,12 +13,16 @@ services:
       - ${CONTAINER_WORKSPACE-.}/${CONTAINER_NAME-gitea}/gitea/data:/data
       #- /etc/timezone:/etc/timezone:ro
       #- /etc/localtime:/etc/localtime:ro
+    healthcheck:
+      test: curl -fSs 127.0.0.1:3000/api/v1/health || exit 1
+      interval: 15s
+      timeout: 5s
+      retries: 3
     networks:
       - ${NETWORK-bridge}
     ports:
-      # - 3000:3000
-      - 8088:3000
-      - 2222:2222
+      - ${OPEN_GITEA_PORT-3000}:3000
+      - ${OPEN_SSH_PORT-2222}:2222
     depends_on:
       - postgres
 
@@ -32,6 +36,8 @@ services:
     extends:
       file: ../postgres/docker-compose.yml
       service: postgres
+    ports:
+      - ${OPEN_PROSTGRES_PORT-5432}:5432
 
 networks:
   gitea:
