@@ -8,7 +8,7 @@ services:
     container_name: mysql
     restart: on-failure:5
     healthcheck:
-      test: mysqladmin --host=127.0.0.1 --port=${OPEN_PORT-3306} --user=$MYSQL_USER --password=$MYSQL_PASSWORD ping
+      test: MYSQL_PWD=$MYSQL_PASSWORD mysqladmin ping --host=127.0.0.1 --port=${OPEN_PORT-3306} --user=$MYSQL_USER --silent | grep "mysqld is alive" || exit 1
       interval: 15s
       timeout: 5s
       retries: 3

@@ -8,7 +8,7 @@ services:
     container_name: postgres
     restart: on-failure:5
     healthcheck:
-      test: pg_isready --host=127.0.0.1 --port=${OPEN_PORT-5432} --dbname=$POSTGRES_DB --username=$POSTGRES_USER
+      test: pg_isready --host=127.0.0.1 --port=${OPEN_PORT-5432} --dbname=$POSTGRES_DB --username=$POSTGRES_USER | grep "accepting connections" || exit 1
       interval: 15s
       timeout: 5s
       retries: 3
