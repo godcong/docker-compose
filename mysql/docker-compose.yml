@@ -1,4 +1,4 @@
-version: "3.1"
+version: "3"
 
 services:
   mysql:
@@ -13,6 +13,6 @@ services:
       timeout: 5s
       retries: 3
     volumes:
-      - ${CONTAINER_WORKSPACE-.}/${NAME-mysql}/data:/var/lib/mysql
+      - ${CONTAINER_WORKSPACE-.}/${NAME-.mysql}/data:/var/lib/mysql
     ports:
       - ${OPEN_PORT-3306}:3306

@@ -8,9 +8,9 @@ services:
     env_file:
       - .env
     volumes:
-      - ${CONTAINER_WORKSPACE-.}/${CONTAINER_NAME-gitea}/gitea/lib:/var/lib/gitea
-      - ${CONTAINER_WORKSPACE-.}/${CONTAINER_NAME-gitea}/gitea/config:/etc/gitea
-      - ${CONTAINER_WORKSPACE-.}/${CONTAINER_NAME-gitea}/gitea/data:/data
+      - ${CONTAINER_WORKSPACE-.}/${CONTAINER_STORAGE-.gitea}/gitea/lib:/var/lib/gitea
+      - ${CONTAINER_WORKSPACE-.}/${CONTAINER_STORAGE-.gitea}/gitea/config:/etc/gitea
+      - ${CONTAINER_WORKSPACE-.}/${CONTAINER_STORAGE-.gitea}/gitea/data:/data
       #- /etc/timezone:/etc/timezone:ro
       #- /etc/localtime:/etc/localtime:ro
     healthcheck:
@@ -29,8 +29,8 @@ services:
   postgres:
     env_file:
       - .env
-    #volumes:
-    #  - ${CONTAINER_WORKSPACE-.}/${CONTAINER_NAME-gitea}/postgres/data:/var/lib/postgresql/data
+    volumes:
+      - ${CONTAINER_WORKSPACE-.}/${CONTAINER_STORAGE-.gitea}/postgres/data:/var/lib/postgresql/data
     networks:
       - ${NETWORK-bridge}
     extends:

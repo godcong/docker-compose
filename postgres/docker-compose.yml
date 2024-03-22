@@ -1,4 +1,4 @@
-version: "3.1"
+version: "3"
 
 services:
   postgres:
@@ -13,6 +13,6 @@ services:
       timeout: 5s
       retries: 3
     volumes:
-      - ${CONTAINER_WORKSPACE-.}/${NAME-postgres}/data:/var/lib/postgresql/data
+      - ${CONTAINER_WORKSPACE-.}/${CONTAINER_STORAGE-.postgres}/data:/var/lib/postgresql/data
     ports:
       - ${OPEN_PORT-5432}:5432
