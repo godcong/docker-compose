@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    restart: on-failure:5
+    env_file:
+      - .env
+    volumes:
+      - ${CONTAINER_WORKSPACE-.}/${CONTAINER_NAME-gitea}/gitea/lib:/var/lib/gitea
+      - ${CONTAINER_WORKSPACE-.}/${CONTAINER_NAME-gitea}/gitea/config:/etc/gitea
+      - ${CONTAINER_WORKSPACE-.}/${CONTAINER_NAME-gitea}/gitea/data:/data
+      #- /etc/timezone:/etc/timezone:ro
+      #- /etc/localtime:/etc/localtime:ro
+    networks:
+      - ${NETWORK-bridge}
+    ports:
+      # - 3000:3000
+      - 8088:3000
+      - 2222:2222
+    depends_on:
+      - postgres
+
+  postgres:
+    env_file:
+      - .env
+    #volumes:
+    #  - ${CONTAINER_WORKSPACE-.}/${CONTAINER_NAME-gitea}/postgres/data:/var/lib/postgresql/data
+    networks:
+      - ${NETWORK-bridge}
+    extends:
+      file: ../postgres/docker-compose.yml
+      service: postgres
+
+networks:
+  gitea:
+    driver: bridge
